@@ -6,7 +6,7 @@ echo "runtest.sh is running..."
 #deleteSynFile="rm synthetic.dat"
 resultFile="result.dat"
 
-if [[ $1 -ge 1 && $1 -le 150 ]] ; then 
+if [[ $1 -ge 1 && $1 -le 50 ]] ; then 
     echo "Accepted input"
     rm "synthetic.dat"
     rm $resultFile
