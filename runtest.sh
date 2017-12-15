@@ -3,12 +3,8 @@
 echo "runtest.sh is running..."
 
 #   Variables
-# echo enter number of users: $numberOfUsers
-    #for i in {1..$users}TH
 #deleteSynFile="rm synthetic.dat"
 resultFile="result.dat"
-# loadtest=`./loadtest`
-# read numberOfUsers
 
 if [[ $1 -ge 1 && $1 -le 150 ]] ; then 
     echo "Accepted input"
@@ -16,36 +12,20 @@ if [[ $1 -ge 1 && $1 -le 150 ]] ; then
     rm $resultFile
     touch $resultFile
     
-    echo CO$'\t'N$'\t'idle >> $resultFile 
-    users=$1
-    seconds=$2
+    echo CO$'\t'N$'\t'idle >> $resultFile #writes the heading on each column 
+    users=$1  # inputs from the user
+    seconds=$2  #seconds for the timeout to kill
     for((i=1;i<=$1;i++))
      do
-        timeout $seconds ./loadtest $i &
-         # printf " %-20s %-20s %-20s\n " CO\ N\ Idle
-         #wc -l < synthetic.dat >> "$resultFile"
-         CO=`wc -l < synthetic.dat`
-         #echo $CO
-        #echo $i >> "$resultFile"
+        timeout $seconds ./loadtest $i &  # timout is a plugin which automatically closes processes
+        CO=`wc -l < synthetic.dat` how many lines 
         N="$i"
-         #mpstat -o JSON | jq -r '.sysstat.hosts[0].statistics[0]."cpu-load"[0].idle' >> $resultFile
         idle=`mpstat 10 1 -o JSON | jq -r '.sysstat.hosts[0].statistics[0]."cpu-load"[0].idle'`
         echo $idle
         echo $CO$'\t'$i$'\t'$idle >> $resultFile
      done
 
-     echo "All done"
+     echo "DONE"
 else
   echo "Bad inputs, try again or exit"
 fi
-
-
-#./loadtest $numberOfUsers
-
-
-
-# for i in {1..20}
-# do
-  #  echo $i
-    # do something here
-# done
